@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>星星之语&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="记录我的技术，音乐，电影，生活点滴">
+<meta property="og:type" content="website">
+<meta property="og:title" content="星星之语&#39;s Blog">
+<meta property="og:url" content="http://cometlj.github.io/index.html">
+<meta property="og:site_name" content="星星之语&#39;s Blog">
+<meta property="og:description" content="记录我的技术，音乐，电影，生活点滴">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="星星之语&#39;s Blog">
+<meta name="twitter:description" content="记录我的技术，音乐，电影，生活点滴">
+  
+    <link rel="alternate" href="/atom.xml" title="星星之语&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">星星之语&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">不忘初心，方得始终</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://cometlj.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-javascript中浅拷贝和深拷贝的区别" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/the-difference-between-shallow-copy-and-deep-in-javascript.html" class="article-date">
+  <time datetime="2017-03-02T04:19:03.000Z" itemprop="datePublished">2017-03-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/the-difference-between-shallow-copy-and-deep-in-javascript.html">javascript中浅拷贝和深拷贝的区别</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天在看阮一峰大神的<a href="http://es6.ruanyifeng.com/" target="_blank" rel="noopener">ECMAScript 6入门的电子版</a>，其中在第9节<code>对象的扩展</code>讲到了<code>对象的扩展运算符</code> 和 <code>Object.getOwnPropertyDescriptors</code>方法，里面有关于Object对象的属性拷贝一栏，非常感兴趣，百度google后发现，在前端工程师的面试题中也经常会问到这个知识点，于是在网上搜集整理了些摘要，数据来源为<code>知乎</code>和<code>SegmentFault</code>，对应的作者都是<code>JerryZou</code>，传送门：<a href="http://jerryzou.com/posts/dive-into-deep-clone-in-javascript/" target="_blank" rel="noopener">http://jerryzou.com/posts/dive-into-deep-clone-in-javascript/</a></p>
+<hr>
+<h2 id="深拷贝和浅拷贝区别"><a href="#深拷贝和浅拷贝区别" class="headerlink" title="深拷贝和浅拷贝区别"></a>深拷贝和浅拷贝区别</h2><blockquote>
+<p>浅拷贝只复制一层对象的属性，而深拷贝则递归复制了所有层级<br>深拷贝必须用到递归</p>
+</blockquote>
+<p>首先深复制和浅复制只针对像 Object, Array 这样的复杂对象的。简单来说，<strong>浅复制只复制一层对象的属性，而深复制则递归复制了所有层级</strong>。<br>抛开jQuery，上代码例子。下面是一个简单的浅复制实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">a</span>:<span class="number">1</span>, <span class="attr">arr</span>: [<span class="number">2</span>,<span class="number">3</span>] &#125;;</span><br><span class="line"><span class="keyword">var</span> shadowObj = shadowCopy(obj);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shadowCopy</span>(<span class="params">src</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> dst = &#123;&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> src) &#123;</span><br><span class="line">    <span class="keyword">if</span> (src.hasOwnProperty(prop)) &#123;</span><br><span class="line">      dst[prop] = src[prop];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> dst;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因为浅复制只会将对象的各个属性进行依次复制，并不会进行递归复制，而 JavaScript 存储对象都是存地址的，所以浅复制会导致 <code>obj.arr</code> 和 <code>shadowObj.arr</code>指向同一块内存地址，大概的示意图如下。<br><img src="https://ww2.sinaimg.cn/large/006tNc79gy1fd9ju10nipj30go068gnm.jpg" alt=""></p>
+<p>导致的结果就是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shadowObj.arr[<span class="number">1</span>] = <span class="number">5</span>;</span><br><span class="line">obj.arr[<span class="number">1</span>]   <span class="comment">// = 5</span></span><br></pre></td></tr></table></figure></p>
+<p>而深复制则不同，它不仅将原对象的各个属性逐个复制出去，而且将原对象各个属性所包含的对象也依次采用深复制的方法递归复制到新对象上。这就不会存在上面 obj 和 shadowObj 的 arr 属性指向同一个对象的问题。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">a</span>:<span class="number">1</span>, <span class="attr">arr</span>: [<span class="number">1</span>,<span class="number">2</span>] &#125;;</span><br><span class="line"><span class="keyword">var</span> obj2 = deepCopy(obj);</span><br></pre></td></tr></table></figure></p>
+<p>结果如下面的示意图所示：<br><img src="https://ww3.sinaimg.cn/large/006tNc79gy1fd9jvm22gyj30go069acr.jpg" alt=""></p>
+<p>需要注意的是，如果对象比较大，层级也比较多，深复制会带来性能上的问题。在遇到需要采用深复制的场景时，可以考虑有没有其他替代的方案。在实际的应用场景中，也是浅复制更为常用。</p>
+<h2 id="如何实现深拷贝"><a href="#如何实现深拷贝" class="headerlink" title="如何实现深拷贝"></a>如何实现深拷贝</h2><p>要实现深复制有很多办法，比如最简单的办法有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var cloneObj = JSON.parse(JSON.stringify(obj));</span><br></pre></td></tr></table></figure></p>
+<p>上面这种方法好处是非常简单易用，但是坏处也显而易见，这会抛弃对象的constructor，也就是深复制之后，无论这个对象原本的构造函数是什么，在深复制之后都会变成<code>Object</code>。另外诸如<code>RegExp</code>对象是无法通过这种方式深复制的。</p>
+<p>所以这里我将介绍一种，我自认为很优美的深复制方法，当然可能也存在问题。如果你发现了我的实现方法有什么问题，请及时让我知道~</p>
+<blockquote>
+<p>先决条件：</p>
+<ol>
+<li>对于任何对象，它可能的类型有Boolean, Number, Date, String, RegExp, Array 以及 Object（所有自定义的对象全都继承于Object）</li>
+<li>我们必须保留对象的构造函数信息（从而使新对象可以使用定义在prototype上的函数）</li>
+</ol>
+</blockquote>
+<p>最重要的一个函数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.clone = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> Constructor = <span class="keyword">this</span>.constructor;</span><br><span class="line">    <span class="keyword">var</span> obj = <span class="keyword">new</span> Constructor();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> attr <span class="keyword">in</span> <span class="keyword">this</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.hasOwnProperty(attr)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span>(<span class="keyword">this</span>[attr]) !== <span class="string">"function"</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>[attr] === <span class="literal">null</span>) &#123;</span><br><span class="line">                    obj[attr] = <span class="literal">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> &#123;</span><br><span class="line">                    obj[attr] = <span class="keyword">this</span>[attr].clone();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> obj;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>定义在<code>Object.prototype</code>上的<code>clone()</code>函数是整个方法的核心，对于任意一个非js预定义的对象，都会调用这个函数。而对于所有js预定义的对象，如Number,Array等，我们就要实现一个辅助clone()函数来实现完整的克隆过程：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Method of Array*/</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.clone = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> thisArr = <span class="keyword">this</span>.valueOf();</span><br><span class="line">    <span class="keyword">var</span> newArr = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;thisArr.length; i++) &#123;</span><br><span class="line">        newArr.push(thisArr[i].clone());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> newArr;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">/* Method of Boolean, Number, String*/</span></span><br><span class="line"><span class="built_in">Boolean</span>.prototype.clone = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.valueOf(); &#125;;</span><br><span class="line"><span class="built_in">Number</span>.prototype.clone = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.valueOf(); &#125;;</span><br><span class="line"><span class="built_in">String</span>.prototype.clone = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.valueOf(); &#125;;</span><br><span class="line"><span class="comment">/* Method of Date*/</span></span><br><span class="line"><span class="built_in">Date</span>.prototype.clone = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="keyword">this</span>.valueOf()); &#125;;</span><br><span class="line"><span class="comment">/* Method of RegExp*/</span></span><br><span class="line"><span class="built_in">RegExp</span>.prototype.clone = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> pattern = <span class="keyword">this</span>.valueOf();</span><br><span class="line">    <span class="keyword">var</span> flags = <span class="string">''</span>;</span><br><span class="line">    flags += pattern.global ? <span class="string">'g'</span> : <span class="string">''</span>;</span><br><span class="line">    flags += pattern.ignoreCase ? <span class="string">'i'</span> : <span class="string">''</span>;</span><br><span class="line">    flags += pattern.multiline ? <span class="string">'m'</span> : <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">RegExp</span>(pattern.source, flags);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>可能直接定义在预定义对象的方法上，让人感觉会有些问题。但在我看来这是一种优美的实现方式。</p>
+<p>以上内容有删改</p>
+<p>转载请注明： <a href="http://cometlj.github.io/blog/the-difference-between-shallow-copy-and-deep-in-javascript.html">http://cometlj.github.io/blog/the-difference-between-shallow-copy-and-deep-in-javascript.html</a> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cometlj.github.io/blog/the-difference-between-shallow-copy-and-deep-in-javascript.html" data-id="cjdysgl2n0006uo08knzpqfyg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-dedecms5-7二次开发之如何从dedecms5-7静态页中获取模型参数信息" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/dedecms57-secondary-development-how-to-get-model-parameter-information-from-static-page.html" class="article-date">
+  <time datetime="2016-07-15T10:17:04.000Z" itemprop="datePublished">2016-07-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/dedecms57-secondary-development-how-to-get-model-parameter-information-from-static-page.html">dedecms5-7二次开发之如何从dedecms5-7静态页中获取模型参数信息</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>博主在二次开发的时候，发现在dedecms生成静态页后，就无法通过$_GET[‘id’]形式获取参数的值了，比如在文章内容页模版里面通过</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;dede:php&#125;</span><br><span class="line"><span class="keyword">echo</span> $_GET[<span class="string">'id'</span>];</span><br><span class="line">&#123;/dede:php&#125;</span><br></pre></td></tr></table></figure>
+<p>这样动态访问页面里面是能获取的，例如/plus/view.php?id=123这样能获取到，但是静态页生成的话，是不认的。后来在dede官方论坛找到了解决方法，只要在模板中使用这样语句<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;dede:php&#125;</span><br><span class="line">$thisid = $refObj-&gt;Fields[<span class="string">'id'</span>];<span class="comment">//同理可以设置不同的key，对应的附加表自定义字段等</span></span><br><span class="line">$sql =<span class="string">"select * from dede_archives where id=$thisid"</span>;</span><br><span class="line">$row = $dsql-&amp;gt;GetOne($sql);</span><br><span class="line">&#123;/dede:php&#125;</span><br></pre></td></tr></table></figure></p>
+<p>有兴趣的同学可以把<code>$refObj</code>打印出来看看，里面包含很多有用的信息，如此，通过$refObj对象的Fields方法，就能实现获取参数的值了，同理，自定义模型的附加表字段也可以通过这种形式获取，其他的就发挥想象，通过万能的sql解决剩下问题把。</p>
+<p>转载请注明： <a href="http://cometlj.github.io/blog/dedecms57-secondary-development-how-to-get-model-parameter-information-from-static-page.html">http://cometlj.github.io/blog/dedecms57-secondary-development-how-to-get-model-parameter-information-from-static-page.html</a> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cometlj.github.io/blog/dedecms57-secondary-development-how-to-get-model-parameter-information-from-static-page.html" data-id="cjdysgl2j0004uo08xyw3u1by" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dedecms/">dedecms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/二次开发/">二次开发</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-对jquery-ajax的返回值进行过滤筛选的方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/the-jqueryajax-return-value-filtering-filter-method.html" class="article-date">
+  <time datetime="2016-07-15T10:08:56.000Z" itemprop="datePublished">2016-07-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/the-jqueryajax-return-value-filtering-filter-method.html">对jquery-ajax的返回值进行过滤筛选的方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>博主在开发的时候，前端通过ajax返回的一个html字符串，但是需要对其进行筛选，找到可操作的dom，结果弄了半天返回的都是undefined，无法筛选出来，苦找了半天，看到一篇<a href="http://blog.163.com/hai_binbin@126/blog/static/121388609201031544727393/" target="_blank" rel="noopener">网上的文章</a>。原理是使用filter(expr)进行<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var stext = $(data).filter(‘#content').html();</span><br></pre></td></tr></table></figure></p>
+<p>data是通过ajax取回的内容，我想进行筛选，只要取回内容里的ID为content的部分。<br>这样的写法在IE里一切正常，不知道为什么在Firefox里就不行，用Firebug来进行查找错误，提示返回值是undefined</p>
+<p>这个问题已经自己解决！<br>不知道有没有人遇到同样的问题，但我想还是分享一下自己的经验！<br>用filter 进行筛选的时候，固定的数据如 march.hu 所说的那个（var data = “</p><p>第一段</p><p id="second">第二段</p>“;），这种没有关系，<font color="red">但用AJAX取回动态数据进行筛选的时候，必须同时指定标签类型和 ID，才能正常进行筛选，要不然在Firefox和Chrome下会出错</font>。<br>错误的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stext = $(data).filter(<span class="string">'#content'</span>).html();</span><br></pre></td></tr></table></figure><p></p>
+<p>正确的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stext = $(data).filter(<span class="string">'div#content'</span>).html();</span><br></pre></td></tr></table></figure></p>
+<p>看来JS基础知识还是重要啊</p>
+<p>转载请注明： <a href="http://cometlj.github.io/blog/the-jqueryajax-return-value-filtering-filter-method.html">http://cometlj.github.io/blog/the-jqueryajax-return-value-filtering-filter-method.html</a> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cometlj.github.io/blog/the-jqueryajax-return-value-filtering-filter-method.html" data-id="cjdysgl2s000auo087q8xnmjw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jquery/">jquery</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Github-Pages-Hexo-搭建博客遇到的问题及解决" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html" class="article-date">
+  <time datetime="2016-07-12T06:37:11.000Z" itemprop="datePublished">2016-07-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html">Github-Pages-Hexo-搭建博客遇到的问题及解决</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文基本是以Mac OS作为环境搭建，有部分摘自<br><a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2" target="_blank" rel="noopener">http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2</a></p>
+<p>这里对作者表示感谢！</p>
+<h2 id="Github-Pages环境搭建"><a href="#Github-Pages环境搭建" class="headerlink" title="Github Pages环境搭建"></a>Github Pages环境搭建</h2><p>这几天恶补了下Git基础知识，推荐看  <a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">廖雪峰的Git基础教程</a>,说的比较通俗，比较浅显易懂，看完后最好自己动手实践下是最好的。下面主要说说在链接Github中遇到的问题和解决方式</p>
+<h3 id="如何添加Git代理"><a href="#如何添加Git代理" class="headerlink" title="如何添加Git代理"></a>如何添加Git代理</h3><p>Git 目前支持的三种协议 <code>git://</code>、<code>ssh://</code> 和 <code>http://</code>，其代理配置各不相同：core.gitproxy 用于 git:// 协议，http.proxy 用于 http:// 协议，ssh:// 协议的代理需要配置 ssh 的 ProxyCommand 参数。</p>
+<h4 id="git协议代理"><a href="#git协议代理" class="headerlink" title="git协议代理"></a>git协议代理</h4><p>建立 /path/to/socks5proxywrapper 文件，使用 <a href="https://bitbucket.org/gotoh/connect" target="_blank" rel="noopener">https://bitbucket.org/gotoh/connect</a> 工具进行代理的转换，各发行版一般打包为 proxy-connect 或者 connect-proxy。</p>
+<blockquote>
+<p>/path/to 可以为你的本机路径，比如/usr/local/bin</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">connect -S 127.0.0.1:7070 <span class="string">"<span class="variable">$@</span>"</span></span><br></pre></td></tr></table></figure>
+<p>配置git</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.gitproxy /path/to/socks5proxywrapper</span><br></pre></td></tr></table></figure>
+<p>或者设置成环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> GIT_PROXY_COMMAND=<span class="string">"/path/to/socks5proxywrapper"</span></span><br></pre></td></tr></table></figure>
+<h4 id="HTTP协议代理配置"><a href="#HTTP协议代理配置" class="headerlink" title="HTTP协议代理配置"></a>HTTP协议代理配置</h4><p>http协议的配置比较简单，使用场景一般有2种：</p>
+<ul>
+<li>内网 到 外网的代理</li>
+<li>Github无法访问被墙了<br>内网到外网的代理比较简单，只要一个内外网通吃的服务器做个跳板即可，下面主要说下Github扶墙的方法。本人使用的是Lantern</li>
+</ul>
+<ol>
+<li>Lantern代理</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy http://127.0.0.1:8787</span><br><span class="line">git config --global https.proxy https://127.0.0.1:8787</span><br></pre></td></tr></table></figure>
+<h4 id="SSH协议代理配置"><a href="#SSH协议代理配置" class="headerlink" title="SSH协议代理配置"></a>SSH协议代理配置</h4><p>博主购买的Bandwagon的VPS做的Shawdowsocks做的socks5代理</p>
+<blockquote>
+<p>主要方法：使用polipo做映射，将socks5-&gt;http来进行处理，如果使用的是Lantern，道理是一样的，只要将本地端口改成8787即可。然后通过corkscrew进行http-&gt;ssh的转换，实现SSH协议代理</p>
+</blockquote>
+<ol>
+<li><p>首先安装Homebrew，具体方法见<a href="http://brew.sh/" target="_blank" rel="noopener">这里</a>,如果已经安装过的请看下一步</p>
+</li>
+<li><p>安装corkscrew，corkscrew是一个能让你通过http代理，使用SSH客户端进行SSH隧道连接的软件</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install corkscrew</span><br></pre></td></tr></table></figure>
+<ol>
+<li>安装polipo，我们通过polipo实现socks5-&gt;http 代理的转换</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install polipo</span><br></pre></td></tr></table></figure>
+<p>这里我们要对polipo做一点配置，将其设置为自启动模式，这样每次开机后就自动开启了这个服务。</p>
+<p>进入到polipo的配置list文件，博主的在<br><code>/usr/local/Cellar/polipo/1.1.1</code>下，编辑文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi homebrew.mxcl.polipo.plist</span><br></pre></td></tr></table></figure>
+<p>加入一行string的配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>homebrew.mxcl.polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/opt/polipo/bin/polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">string</span>&gt;</span>socksParentProxy=localhost:1080<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Set `ulimit -n 65536`. The default OS X limit is 256, that's</span></span><br><span class="line"><span class="comment">         not enough for Polipo (displays 'too many files open' errors).</span></span><br><span class="line"><span class="comment">         It seems like you have no reason to lower this limit</span></span><br><span class="line"><span class="comment">         (and unlikely will want to raise it). --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>SoftResourceLimits<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">key</span>&gt;</span>NumberOfFiles<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">integer</span>&gt;</span>65536<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>设置每次启动登陆polipo</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -sfv /usr/<span class="built_in">local</span>/Cellar/polipo/1.1.1/*.plist ~/Library/LaunchAgents</span><br></pre></td></tr></table></figure>
+<p>这样就配置号了，下面对<code>~/.ssh</code>下新增编辑config文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.ssh</span><br><span class="line">vi config</span><br></pre></td></tr></table></figure>
+<p>填写如下内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">User username   <span class="comment">#这里填写你的Github注册邮箱或者账户名均可</span></span><br><span class="line">Hostname ssh.github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line"><span class="comment">#polipo默认监听的是8123端口，也可以在刚才的plist文件指定</span></span><br><span class="line"><span class="comment">#通过corkscrew进行http代理-&gt;ssh的代理配置</span></span><br><span class="line">ProxyCommand corkscrew 127.0.0.1 8123 %h %p</span><br><span class="line">IdentityFile ~/.ssh/id_rsa</span><br><span class="line">Port 443</span><br></pre></td></tr></table></figure>
+<p>这样就实现了<code>socks5-&gt;http-&gt;ssh</code>的转换配置</p>
+<p>如果要测试是否连接成功，可以输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>界面返回</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hi XXX! You\<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></span><br></pre></td></tr></table></figure>
+<p>即为连接成功~</p>
+<h2 id="hexo环境搭建"><a href="#hexo环境搭建" class="headerlink" title="hexo环境搭建"></a>hexo环境搭建</h2><p>主要环境搭建请移步 <a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/</a><br>这里主要描述下如何将Github Pages+Hexo集成的</p>
+<h4 id="博客搭建流程"><a href="#博客搭建流程" class="headerlink" title="博客搭建流程"></a>博客搭建流程</h4><ol>
+<li>创建仓库，cometlj.github.io；</li>
+<li>创建两个分支：master 与 hexo；</li>
+<li>设置hexo为默认分支（因为我们只需要手动管理这个分支上的Hexo网站文件）；</li>
+<li>使用git clone git@github.com:cometlj/cometlj.github.io.git拷贝仓库；</li>
+<li>在本地cometlj.github.io文件夹下通过Git bash依次执行</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br><span class="line">npm install</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意！！</strong>这里有一个大坑，因为<code>git clone</code> 的时候，已经将写<code>.git</code>文件夹写入了，但是通过<code>hexo init</code>会<strong>先清空所有的文件，这样会导致git仓库损坏</strong>，网上找了找了半天也没有解决办法，这里最好在做<code>hexo init</code>操作之前，先把<code>.git</code>文件夹备份出来，执行完<code>hexo init</code>操作后，再挪回来即可。</p>
+</blockquote>
+<p>6.修改_config.yml中的deploy参数，配置hexo的git部署地址，分支应为master；例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: git@github.com:xxx/xxx.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>依次执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m “…”</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<p>提交网站相关的文件，这里可以使用<code>.gitignore</code>文件将没必要上传的文件过滤，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi .gitignore</span><br></pre></td></tr></table></figure>
+<p>写入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/.deploy_git</span><br><span class="line">/public</span><br><span class="line">/_config.yml</span><br></pre></td></tr></table></figure>
+<p>这样每次hexo分支上就不会有多余的其他文件了</p>
+<ol>
+<li>执行hexo generate -d生成网站并部署到GitHub上。</li>
+</ol>
+<p>这样一来，在GitHub上的CrazyMilk.github.io仓库就有两个分支，一个hexo分支用来存放网站的原始文件，一个master分支用来存放生成的静态网页。</p>
+<h4 id="博客管理流程"><a href="#博客管理流程" class="headerlink" title="博客管理流程"></a>博客管理流程</h4><p><strong>日常修改</strong><br>在本地对博客进行修改（添加新博文、修改样式等等）后，通过下面的流程进行管理：<br>依次执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m “…”</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<p>hexo指令将改动推送到GitHub（此时当前分支应为hexo）；<br>然后才执行hexo generate -d发布网站到master分支上。<br>虽然两个过程顺序调转一般不会有问题，不过逻辑上这样的顺序是绝对没问题的（例如突然死机要重装了，悲催….的情况，调转顺序就有问题了）。</p>
+<p><strong>本地资料丢失</strong><br>当重装电脑之后，或者想在其他电脑上修改博客，可以使用下列步骤：<br>使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:cometlj/cometlj.github.io.git</span><br></pre></td></tr></table></figure>
+<p>拷贝仓库（默认分支为hexo）<br>在本地新拷贝的cometlj.github.io文件夹下通过Git bash依次执行下列指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<p>（<em>记得，不需要<code>hexo init</code>这条指令</em>）</p>
+<p>OK,现在可以使用Hexo编写你的博客了</p>
+<p>转载请注明： <a href="http://cometlj.github.io/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html">http://cometlj.github.io/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html</a> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cometlj.github.io/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html" data-id="cjdysgl260000uo08t9nuv6hg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/格式化输出/">格式化输出</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Mysql日期函数大全汇总-不定期汇总" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/mysql-date-function-daquan-summary-from-time-to.html" class="article-date">
+  <time datetime="2016-07-12T06:37:11.000Z" itemprop="datePublished">2016-07-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/mysql-date-function-daquan-summary-from-time-to.html">Mysql日期函数大全汇总-不定期汇总</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>博主在开发过程中，进行用到mysql的日期函数，但是一般也没记住多少，都是现用现查的，每次百度第一页第一条就是这个，索性就转载过来了，原文在</p>
+<p><a href="http://www.cnblogs.com/zeroone/archive/2010/05/05/1727659.html" target="_blank" rel="noopener">http://www.cnblogs.com/zeroone/archive/2010/05/05/1727659.html</a></p>
+<p>DAYOFWEEK(date)<br>　返回日期date是星期几(1=星期天,2=星期一,……7=星期六,ODBC标准)<br>mysql&gt; select DAYOFWEEK(‘1998-02-03’);<br>　　-&gt; 3<br>WEEKDAY(date)<br>　返回日期date是星期几(0=星期一,1=星期二,……6= 星期天)。<br>mysql&gt; select WEEKDAY(‘1997-10-04 22:23:00’);<br>　　-&gt; 5<br>mysql&gt; select WEEKDAY(‘1997-11-05’);<br>　　-&gt; 2<br>DAYOFMONTH(date)<br>　返回date是一月中的第几日(在1到31范围内)<br>mysql&gt; select DAYOFMONTH(‘1998-02-03’);<br>　　-&gt; 3<br>DAYOFYEAR(date)<br>　返回date是一年中的第几日(在1到366范围内)<br>mysql&gt; select DAYOFYEAR(‘1998-02-03’);<br>　　-&gt; 34<br>MONTH(date)<br>　返回date中的月份数值<br>mysql&gt; select MONTH(‘1998-02-03’);<br>　　-&gt; 2<br>DAYNAME(date)<br>　返回date是星期几(按英文名返回)<br>mysql&gt; select DAYNAME(“1998-02-05”);<br>　　-&gt; ‘Thursday’<br>MONTHNAME(date)<br>　返回date是几月(按英文名返回)<br>mysql&gt; select MONTHNAME(“1998-02-05”);<br>　　-&gt; ‘February’<br>QUARTER(date)<br>　返回date是一年的第几个季度<br>mysql&gt; select QUARTER(’98-04-01′);<br>　　-&gt; 2<br>WEEK(date,first)<br>　返回date是一年的第几周(first默认值0,first取值1表示周一是周的开始,0从周日开始)<br>mysql&gt; select WEEK(‘1998-02-20’);<br>　　-&gt; 7<br>mysql&gt; select WEEK(‘1998-02-20’,0);<br>　　-&gt; 7<br>mysql&gt; select WEEK(‘1998-02-20’,1);<br>　　-&gt; 8<br>YEAR(date)<br>　返回date的年份(范围在1000到9999)<br>mysql&gt; select YEAR(’98-02-03′);<br>　　-&gt; 1998<br>HOUR(time)<br>　返回time的小时数(范围是0到23)<br>mysql&gt; select HOUR(’10:05:03′);<br>　　-&gt; 10<br>MINUTE(time)<br>　返回time的分钟数(范围是0到59)<br>mysql&gt; select MINUTE(’98-02-03 10:05:03′);<br>　　-&gt; 5<br>SECOND(time)<br>　返回time的秒数(范围是0到59)<br>mysql&gt; select SECOND(’10:05:03′);<br>　　-&gt; 3<br>PERIOD_ADD(P,N)<br>　增加N个月到时期P并返回(P的格式YYMM或YYYYMM)<br>mysql&gt; select PERIOD_ADD(9801,2);<br>　　-&gt; 199803<br>PERIOD_DIFF(P1,P2)<br>　返回在时期P1和P2之间月数(P1和P2的格式YYMM或YYYYMM)<br>mysql&gt; select PERIOD_DIFF(9802,199703);<br>　　-&gt; 11<br>DATE_ADD(date,INTERVAL expr type)<br>DATE_SUB(date,INTERVAL expr type)<br>ADDDATE(date,INTERVAL expr type)<br>SUBDATE(date,INTERVAL expr type)<br>　对日期时间进行加减法运算<br>　(ADDDATE()和SUBDATE()是DATE_ADD()和DATE_SUB()的同义词,也可以用运算符 和-而不是函数<br>　date是一个DATETIME或DATE值,expr对date进行加减法的一个表达式字符串type指明表达式expr应该如何被解释<br>　[type值 含义 期望的expr格式]:<br>　SECOND 秒 SECONDS<br>　MINUTE 分钟 MINUTES<br>　HOUR 时间 HOURS<br>　DAY 天 DAYS<br>　MONTH 月 MONTHS<br>　YEAR 年 YEARS<br>　MINUTE_SECOND 分钟和秒 “MINUTES:SECONDS”<br>　HOUR_MINUTE 小时和分钟 “HOURS:MINUTES”<br>　DAY_HOUR 天和小时 “DAYS HOURS”<br>　YEAR_MONTH 年和月 “YEARS-MONTHS”<br>　HOUR_SECOND 小时, 分钟， “HOURS:MINUTES:SECONDS”<br>　DAY_MINUTE 天, 小时, 分钟 “DAYS HOURS:MINUTES”<br>　DAY_SECOND 天, 小时, 分钟, 秒 “DAYS HOURS:MINUTES:SECONDS”<br>　expr中允许任何标点做分隔符,如果所有是DATE值时结果是一个DATE值,否则结果是一个DATETIME值)<br>　如果type关键词不完整,则MySQL从右端取值,DAY_SECOND因为缺少小时分钟等于MINUTE_SECOND)<br>　如果增加MONTH、YEAR_MONTH或YEAR,天数大于结果月份的最大天数则使用最大天数)<br>mysql&gt; SELECT “1997-12-31 23:59:59” INTERVAL 1 SECOND;<br>　　-&gt; 1998-01-01 00:00:00<br>mysql&gt; SELECT INTERVAL 1 DAY “1997-12-31”;<br>　　-&gt; 1998-01-01<br>mysql&gt; SELECT “1998-01-01” – INTERVAL 1 SECOND;<br>　　-&gt; 1997-12-31 23:59:59<br>mysql&gt; SELECT DATE_ADD(“1997-12-31 23:59:59”,INTERVAL 1 SECOND);<br>　　-&gt; 1998-01-01 00:00:00<br>mysql&gt; SELECT DATE_ADD(“1997-12-31 23:59:59”,INTERVAL 1 DAY);<br>　　-&gt; 1998-01-01 23:59:59<br>mysql&gt; SELECT DATE_ADD(“1997-12-31 23:59:59”,INTERVAL “1:1” MINUTE_SECOND);<br>　　-&gt; 1998-01-01 00:01:00<br>mysql&gt; SELECT DATE_SUB(“1998-01-01 00:00:00”,INTERVAL “1 1:1:1” DAY_SECOND);<br>　　-&gt; 1997-12-30 22:58:59<br>mysql&gt; SELECT DATE_ADD(“1998-01-01 00:00:00”, INTERVAL “-1 10” DAY_HOUR);<br>　　-&gt; 1997-12-30 14:00:00<br>mysql&gt; SELECT DATE_SUB(“1998-01-02”, INTERVAL 31 DAY);<br>　　-&gt; 1997-12-02<br>mysql&gt; SELECT EXTRACT(YEAR FROM “1999-07-02”);<br>　　-&gt; 1999<br>mysql&gt; SELECT EXTRACT(YEAR_MONTH FROM “1999-07-02 01:02:03”);<br>　　-&gt; 199907<br>mysql&gt; SELECT EXTRACT(DAY_MINUTE FROM “1999-07-02 01:02:03”);<br>　　-&gt; 20102<br>TO_DAYS(date)<br>　返回日期date是西元0年至今多少天(不计算1582年以前)<br>mysql&gt; select TO_DAYS(950501);<br>　　-&gt; 728779<br>mysql&gt; select TO_DAYS(‘1997-10-07’);<br>　　-&gt; 729669<br>FROM_DAYS(N)<br>　给出西元0年至今多少天返回DATE值(不计算1582年以前)<br>mysql&gt; select FROM_DAYS(729669);<br>　　-&gt; ‘1997-10-07’<br>DATE_FORMAT(date,format)<br>　根据format字符串格式化date值<br>　(在format字符串中可用标志符:<br>　%M 月名字(January……December)<br>　%W 星期名字(Sunday……Saturday)<br>　%D 有英语前缀的月份的日期(1st, 2nd, 3rd, 等等。）<br>　%Y 年, 数字, 4 位<br>　%y 年, 数字, 2 位<br>　%a 缩写的星期名字(Sun……Sat)<br>　%d 月份中的天数, 数字(00……31)<br>　%e 月份中的天数, 数字(0……31)<br>　%m 月, 数字(01……12)<br>　%c 月, 数字(1……12)<br>　%b 缩写的月份名字(Jan……Dec)<br>　%j 一年中的天数(001……366)<br>　%H 小时(00……23)<br>　%k 小时(0……23)<br>　%h 小时(01……12)<br>　%I 小时(01……12)<br>　%l 小时(1……12)<br>　%i 分钟, 数字(00……59)<br>　%r 时间,12 小时(hh:mm:ss [AP]M)<br>　%T 时间,24 小时(hh:mm:ss)<br>　%S 秒(00……59)<br>　%s 秒(00……59)<br>　%p AM或PM<br>　%w 一个星期中的天数(0=Sunday ……6=Saturday ）<br>　%U 星期(0……52), 这里星期天是星期的第一天<br>　%u 星期(0……52), 这里星期一是星期的第一天<br>　%% 字符% )<br>mysql&gt; select DATE_FORMAT(‘1997-10-04 22:23:00′,’%W %M %Y’);<br>　　-&gt; ‘Saturday October 1997’<br>mysql&gt; select DATE_FORMAT(‘1997-10-04 22:23:00′,’%H:%i:%s’);<br>　　-&gt; ’22:23:00′<br>mysql&gt; select DATE_FORMAT(‘1997-10-04 22:23:00′,’%D %y %a %d %m %b %j’);<br>　　-&gt; ‘4th 97 Sat 04 10 Oct 277’<br>mysql&gt; select DATE_FORMAT(‘1997-10-04 22:23:00′,’%H %k %I %r %T %S %w’);<br>　　-&gt; ’22 22 10 10:23:00 PM 22:23:00 00 6′<br>TIME_FORMAT(time,format)<br>　和DATE_FORMAT()类似,但TIME_FORMAT只处理小时、分钟和秒(其余符号产生一个NULL值或0)<br>CURDATE()<br>CURRENT_DATE()<br>　以’YYYY-MM-DD’或YYYYMMDD格式返回当前日期值(根据返回值所处上下文是字符串或数字)<br>mysql&gt; select CURDATE();<br>　　-&gt; ‘1997-12-15’<br>mysql&gt; select CURDATE() 0;<br>　　-&gt; 19971215<br>CURTIME()<br>CURRENT_TIME()<br>　以’HH:MM:SS’或HHMMSS格式返回当前时间值(根据返回值所处上下文是字符串或数字)<br>mysql&gt; select CURTIME();<br>　　-&gt; ’23:50:26′<br>mysql&gt; select CURTIME() 0;<br>　　-&gt; 235026<br>NOW()<br>SYSDATE()<br>CURRENT_TIMESTAMP()<br>　以’YYYY-MM-DD HH:MM:SS’或YYYYMMDDHHMMSS格式返回当前日期时间(根据返回值所处上下文是字符串或数字)<br>mysql&gt; select NOW();<br>　　-&gt; ‘1997-12-15 23:50:26’<br>mysql&gt; select NOW() 0;<br>　　-&gt; 19971215235026<br>UNIX_TIMESTAMP()<br>UNIX_TIMESTAMP(date)<br>　返回一个Unix时间戳(从’1970-01-01 00:00:00’GMT开始的秒数,date默认值为当前时间)<br>mysql&gt; select UNIX_TIMESTAMP();<br>　　-&gt; 882226357<br>mysql&gt; select UNIX_TIMESTAMP(‘1997-10-04 22:23:00’);<br>　　-&gt; 875996580<br>FROM_UNIXTIME(unix_timestamp)<br>　以’YYYY-MM-DD HH:MM:SS’或YYYYMMDDHHMMSS格式返回时间戳的值(根据返回值所处上下文是字符串或数字)<br>mysql&gt; select FROM_UNIXTIME(875996580);<br>　　-&gt; ‘1997-10-04 22:23:00’<br>mysql&gt; select FROM_UNIXTIME(875996580) 0;<br>　　-&gt; 19971004222300<br>FROM_UNIXTIME(unix_timestamp,format)<br>　以format字符串格式返回时间戳的值<br>mysql&gt; select FROM_UNIXTIME(UNIX_TIMESTAMP(),’%Y %D %M %h:%i:%s %x’);<br>　　-&gt; ‘1997 23rd December 03:43:30 x’<br>SEC_TO_TIME(seconds)<br>　以’HH:MM:SS’或HHMMSS格式返回秒数转成的TIME值(根据返回值所处上下文是字符串或数字)<br>mysql&gt; select SEC_TO_TIME(2378);<br>　　-&gt; ’00:39:38′<br>mysql&gt; select SEC_TO_TIME(2378) 0;<br>　　-&gt; 3938<br>TIME_TO_SEC(time)<br>　返回time值有多少秒<br>mysql&gt; select TIME_TO_SEC(’22:23:00′);<br>　　-&gt; 80580<br>mysql&gt; select TIME_TO_SEC(’00:39:38′);<br>　　-&gt; 2378</p>
+<p>转载请注明： <a href="http://cometlj.github.io/blog/mysql-date-function-daquan-summary-from-time-to.html">http://cometlj.github.io/blog/mysql-date-function-daquan-summary-from-time-to.html</a> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cometlj.github.io/blog/mysql-date-function-daquan-summary-from-time-to.html" data-id="cjdysgl2d0001uo08m9vve49q" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-php格式化数字-位数不足前面加0补足" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/php-formatting-numbers-plus-0-in-front-of-insufficient-digits.html" class="article-date">
+  <time datetime="2016-07-12T06:37:11.000Z" itemprop="datePublished">2016-07-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/php-formatting-numbers-plus-0-in-front-of-insufficient-digits.html">php格式化数字-位数不足前面加0补足</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="第一种方法："><a href="#第一种方法：" class="headerlink" title="第一种方法："></a>第一种方法：</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$var=sprintf(<span class="string">"%04d"</span>, <span class="number">2</span>);<span class="comment">//生成4位数，不足前面补0</span></span><br><span class="line"><span class="keyword">echo</span> $var;<span class="comment">//结果为0002</span></span><br></pre></td></tr></table></figure>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sprintf(format,arg1,arg2,arg++)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>format</td>
+<td>必需。转换格式。</td>
+</tr>
+<tr>
+<td>arg1</td>
+<td>必需。规定插到 format 字符串中第一个 % 符号处的参数。</td>
+</tr>
+<tr>
+<td>arg2</td>
+<td>可选。规定插到 format 字符串中第二个 % 符号处的参数。</td>
+</tr>
+<tr>
+<td>arg++</td>
+<td>可选。规定插到 format 字符串中第三、四等等 % 符号处的参数。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>参数 format 是转换的格式，以百分比符号 (“%”) 开始到转换字符结束。下面的可能的 format 值：<br>|参数|描述|<br>| ——–   |——–   |<br>|%%  |返回百分比符号|<br>|%b  |二进制数|<br>|%c  |依照 ASCII 值的字符|<br>|%d  |带符号十进制数|<br>|%e  |可续计数法（比如 1.5e+3）|<br>|%u  |无符号十进制数|<br>|%f  |浮点数(local settings aware)|<br>|%F  |浮点数(not local settings aware)|<br>|%o  |八进制数|<br>|%s  |字符串|<br>|%x  |十六进制数（小写字母）|<br>|%X  |十六进制数（大写字母）|<br>arg1, arg2, ++ 等参数将插入到主字符串中的百分号 (%) 符号处。该函数是逐步执行的。在第一个 % 符号中，插入 arg1，在第二个 % 符号处，插入 arg2，依此类推。</p>
+<h3 id="第二种方法："><a href="#第二种方法：" class="headerlink" title="第二种方法："></a>第二种方法：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$number</span> = 1234.56;</span><br><span class="line">// english notation (default)</span><br><span class="line"><span class="variable">$english_format_number</span> = number_format(<span class="variable">$number</span>);</span><br><span class="line">// 1,235</span><br><span class="line">// French notation</span><br><span class="line"><span class="variable">$nombre_format_francais</span> = number_format(<span class="variable">$number</span>, 2, <span class="string">','</span>, <span class="string">' '</span>);</span><br><span class="line">// 1 234,56</span><br><span class="line"><span class="variable">$number</span> = 1234.5678;</span><br><span class="line">// english notation without thousands seperator</span><br><span class="line"><span class="variable">$english_format_number</span> = number_format(<span class="variable">$number</span>, 2, <span class="string">'.'</span>, <span class="string">''</span>);</span><br><span class="line">// 1234.57</span><br></pre></td></tr></table></figure>
+<p>两种方法都不错，适合于使用在生成序列号或者流水号的时候使用</p>
+<p>转载请注明： <a href="http://cometlj.github.io/blog/php-formatting-numbers-plus-0-in-front-of-insufficient-digits.html">http://cometlj.github.io/blog/php-formatting-numbers-plus-0-in-front-of-insufficient-digits.html</a> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cometlj.github.io/blog/php-formatting-numbers-plus-0-in-front-of-insufficient-digits.html" data-id="cjdysgl2r0009uo085osrfds6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/格式化输出/">格式化输出</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-PHPExcel开发中遇到的问题和注意事项" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/phpexcel-problems-encountered-in-the-development-and-precautions.html" class="article-date">
+  <time datetime="2016-07-12T03:37:11.000Z" itemprop="datePublished">2016-07-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/phpexcel-problems-encountered-in-the-development-and-precautions.html">PHPExcel开发中遇到的问题和注意事项</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>标签（空格分隔）： PHPExcel<br>这段时间博主也在用PHPExcel进行项目开发，里面遇到了很多的问题，也总结了很多的经验，这里就记录下来作为自己以后的注意事项</p>
+<h2 id="一、phpExcel大数据量情况下内存溢出解决"><a href="#一、phpExcel大数据量情况下内存溢出解决" class="headerlink" title="一、phpExcel大数据量情况下内存溢出解决"></a>一、phpExcel大数据量情况下内存溢出解决</h2><p>版本：1.7.6+<br>在不进行特殊设置的情况下，phpExcel将读取的单元格信息保存在内存中，我们可以通过</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHPExcel_Settings::setCacheStorageMethod()</span><br></pre></td></tr></table></figure>
+<p>来设置不同的缓存方式，已达到降低内存消耗的目的！</p>
+<h3 id="1、将单元格数据序列化后保存在内存中"><a href="#1、将单元格数据序列化后保存在内存中" class="headerlink" title="1、将单元格数据序列化后保存在内存中"></a>1、将单元格数据序列化后保存在内存中</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHPExcel_CachedObjectStorageFactory::cache_in_memory_serialized;</span><br></pre></td></tr></table></figure>
+<h3 id="2、将单元格序列化后再进行Gzip压缩，然后保存在内存中"><a href="#2、将单元格序列化后再进行Gzip压缩，然后保存在内存中" class="headerlink" title="2、将单元格序列化后再进行Gzip压缩，然后保存在内存中"></a>2、将单元格序列化后再进行Gzip压缩，然后保存在内存中</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHPExcel_CachedObjectStorageFactory::cache_in_memory_gzip;</span><br></pre></td></tr></table></figure>
+<h3 id="3、缓存在临时的磁盘文件中，速度可能会慢一些"><a href="#3、缓存在临时的磁盘文件中，速度可能会慢一些" class="headerlink" title="3、缓存在临时的磁盘文件中，速度可能会慢一些"></a>3、缓存在临时的磁盘文件中，速度可能会慢一些</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHPExcel_CachedObjectStorageFactory::cache_to_discISAM;</span><br></pre></td></tr></table></figure>
+<h3 id="4、保存在php-temp"><a href="#4、保存在php-temp" class="headerlink" title="4、保存在php://temp"></a>4、保存在php://temp</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;</span><br></pre></td></tr></table></figure>
+<h3 id="5、保存在memcache中"><a href="#5、保存在memcache中" class="headerlink" title="5、保存在memcache中"></a>5、保存在memcache中</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PHPExcel_CachedObjectStorageFactory::cache_to_memcache</span><br><span class="line">$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_memcache;</span><br><span class="line">$cacheSettings = <span class="keyword">array</span>( <span class="string">'memcacheServer'</span>  =&gt; <span class="string">'localhost'</span>,</span><br><span class="line">                        <span class="string">'memcachePort'</span>    =&gt; <span class="number">11211</span>,</span><br><span class="line">                        <span class="string">'cacheTime'</span>       =&gt; <span class="number">600</span></span><br><span class="line">                      );</span><br><span class="line">PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);</span><br></pre></td></tr></table></figure>
+<p>注意是加在new PHPExcel() 前面：如下<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require_once</span> APPPATH .<span class="string">'third_party/PHPExcel/PHPExcel.php'</span>;</span><br><span class="line">$cacheMethod = PHPExcel_CachedObjectStorageFactory::cache_to_phpTemp;</span><br><span class="line">$cacheSettings = <span class="keyword">array</span>(<span class="string">'memoryCacheSize'</span>=&gt;<span class="string">'16MB'</span>);</span><br><span class="line">PHPExcel_Settings::setCacheStorageMethod($cacheMethod, $cacheSettings);</span><br><span class="line">$objPHPExcel = <span class="keyword">new</span> PHPExcel();</span><br></pre></td></tr></table></figure></p>
+<p>以上转自：<a href="http://www.cnblogs.com/myx/archive/2013/05/20/phpExcel-setCache.html" target="_blank" rel="noopener">这位兄台</a></p>
+<h2 id="二、phpexcel单元格内换行"><a href="#二、phpexcel单元格内换行" class="headerlink" title="二、phpexcel单元格内换行"></a>二、phpexcel单元格内换行</h2><p>我说的这个换行不是字多了，自动换行的那种，是在特定位置添加换行符然后注意两点<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$objPHPExcel -&gt;setActiveSheetIndex(<span class="number">0</span>)-&gt;setCellValue( <span class="string">'A4'</span> , “Hello\nWorld”)；</span><br><span class="line">$objPHPExcel -&gt;setActiveSheetIndex(<span class="number">0</span>)-&gt;setCellValue( <span class="string">'A4'</span> , “Hello\nWorld”)；</span><br></pre></td></tr></table></figure></p>
+<h3 id="一、要有下面的代码配合"><a href="#一、要有下面的代码配合" class="headerlink" title="一、要有下面的代码配合"></a>一、要有下面的代码配合</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A4'</span>)-&gt;getAlignment()-&gt;setWrapText(<span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A4'</span>)-&gt;getAlignment()-&gt;setWrapText(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="二、是要换行的字符串Hello-nWorld外面必须是双引号-另外，网上有朋友说，通过以下代码："><a href="#二、是要换行的字符串Hello-nWorld外面必须是双引号-另外，网上有朋友说，通过以下代码：" class="headerlink" title="二、是要换行的字符串Hello\nWorld外面必须是双引号,另外，网上有朋友说，通过以下代码："></a>二、是要换行的字符串Hello\nWorld外面必须是双引号,另外，网上有朋友说，通过以下代码：</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A4'</span>)-&gt;getAlignment()-&gt;setWrapText(<span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A4'</span>)-&gt;getAlignment()-&gt;setWrapText(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+<p>也可以实现单元格内换行，但是博主在使用后，貌似没有起到作用，只能通过\n的进行换行操作。</p>
+<h3 id="三、关于合并单元格的填充"><a href="#三、关于合并单元格的填充" class="headerlink" title="三、关于合并单元格的填充"></a>三、关于合并单元格的填充</h3><p>先设置左上角的第一个单元格的值，然后通过mergeCells将单元格合并（左上角：右下角）<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">"A2"</span>,$intro_title);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;mergeCells(<span class="string">"A2:Y3"</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">"A2"</span>,$intro_title);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;mergeCells(<span class="string">"A2:Y3"</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="四、对于load加载中文文件名模板显示找不到模板的Error解决方法："><a href="#四、对于load加载中文文件名模板显示找不到模板的Error解决方法：" class="headerlink" title="四、对于load加载中文文件名模板显示找不到模板的Error解决方法："></a>四、对于load加载中文文件名模板显示找不到模板的Error解决方法：</h3><p>博主在开发中，发现存在有汉字的模板文件，在LINUX环境下提示无法加载的问题，实际操作中发现是因为乱码造成PHPExcel无法识别，网上有朋友介绍可以使用iconv函数进行GBK转UTF8格式转换，博主测试后发现仍然无法识别，最后解决方案为：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$filepath = base64_encode($_SERVER[<span class="string">'DOCUMENT_ROOT'</span>].__ROOT__.<span class="string">"/Uploads/excel/汇总数据输出/花名汇总表.xlsx"</span>);</span><br><span class="line">$real_filepath = base64_decode($filepath);</span><br><span class="line">$objPHPExcel = PHPExcel_IOFactory::load($real_filepath);</span><br><span class="line">$filepath = base64_encode($_SERVER[<span class="string">'DOCUMENT_ROOT'</span>].__ROOT__.<span class="string">"/Uploads/excel/汇总数据输出/花名汇总表.xlsx"</span>);</span><br><span class="line">$real_filepath = base64_decode($filepath);</span><br><span class="line">$objPHPExcel = PHPExcel_IOFactory::load($real_filepath);</span><br></pre></td></tr></table></figure></p>
+<p>以后如果有更新，就接着这里记录了~~<br>常用的API记录，摘自朽木博客，大神的转载~~<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span> <span class="string">'PHPExcel.php'</span>;</span><br><span class="line"><span class="keyword">include</span> <span class="string">'PHPExcel/RichText.php'</span>; <span class="comment">//用于输出.xls/.pdf的</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//创建一个excel</span></span><br><span class="line">$objPHPExcel = <span class="keyword">new</span> PHPExcel();</span><br><span class="line"></span><br><span class="line"><span class="comment">//保存excel</span></span><br><span class="line">$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, <span class="string">'Excel5'</span>);</span><br><span class="line">$objWriter-&gt;save(<span class="string">"xxx.xlsx"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出XLS到浏览器</span></span><br><span class="line">$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, <span class="string">'Excel5'</span>);</span><br><span class="line">header(<span class="string">"Pragma: public"</span>);</span><br><span class="line">header(<span class="string">"Expires: 0″);</span></span><br><span class="line"><span class="string">header("</span>Cache-Control:must-revalidate, post-check=<span class="number">0</span>, pre-check=<span class="number">0</span>″);</span><br><span class="line">header(<span class="string">"Content-Type:application/force-download"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/vnd.ms-execl"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/octet-stream"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/download"</span>);</span><br><span class="line">header(<span class="string">'Content-Disposition:attachment;filename="resume.xls"'</span>);</span><br><span class="line">header(<span class="string">"Content-Transfer-Encoding:binary"</span>);</span><br><span class="line">$objWriter-&gt;save(<span class="string">'php://output'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出PDF到浏览器</span></span><br><span class="line">$rendererName = PHPExcel_Settings::PDF_RENDERER_TCPDF;</span><br><span class="line">$rendererLibrary = <span class="string">'TCPDF'</span>;</span><br><span class="line">$rendererLibraryPath = <span class="string">'./Lib/tcpdf/'</span>;</span><br><span class="line"></span><br><span class="line">PHPExcel_Settings::setPdfRenderer(</span><br><span class="line">    $rendererName,</span><br><span class="line">    $rendererLibraryPath</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, <span class="string">'PDF'</span>);</span><br><span class="line">$objWriter-&gt;setSheetIndex(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">header(<span class="string">"Pragma: public"</span>);</span><br><span class="line">header(<span class="string">"Expires: 0″);</span></span><br><span class="line"><span class="string">header("</span>Cache-Control:must-revalidate, post-check=<span class="number">0</span>, pre-check=<span class="number">0</span>″);</span><br><span class="line">header(<span class="string">"Content-Type:application/force-download"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/pdf"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/octet-stream"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/download"</span>);</span><br><span class="line">header(<span class="string">'Content-Disposition:attachment;filename="resume.pdf"'</span>);</span><br><span class="line">header(<span class="string">"Content-Transfer-Encoding:binary"</span>);</span><br><span class="line">$objWriter-&gt;save(<span class="string">'php://output'</span>);</span><br><span class="line"><span class="keyword">include</span> <span class="string">'PHPExcel.php'</span>;</span><br><span class="line"><span class="keyword">include</span> <span class="string">'PHPExcel/RichText.php'</span>; <span class="comment">//用于输出.xls/.pdf的</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//创建一个excel</span></span><br><span class="line">$objPHPExcel = <span class="keyword">new</span> PHPExcel();</span><br><span class="line"></span><br><span class="line"><span class="comment">//保存excel</span></span><br><span class="line">$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, <span class="string">'Excel5'</span>);</span><br><span class="line">$objWriter-&gt;save(<span class="string">"xxx.xlsx"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出XLS到浏览器</span></span><br><span class="line">$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, <span class="string">'Excel5'</span>);</span><br><span class="line">header(<span class="string">"Pragma: public"</span>);</span><br><span class="line">header(<span class="string">"Expires: 0″);</span></span><br><span class="line"><span class="string">header("</span>Cache-Control:must-revalidate, post-check=<span class="number">0</span>, pre-check=<span class="number">0</span>″);</span><br><span class="line">header(<span class="string">"Content-Type:application/force-download"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/vnd.ms-execl"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/octet-stream"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/download"</span>);</span><br><span class="line">header(<span class="string">'Content-Disposition:attachment;filename="resume.xls"'</span>);</span><br><span class="line">header(<span class="string">"Content-Transfer-Encoding:binary"</span>);</span><br><span class="line">$objWriter-&gt;save(<span class="string">'php://output'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出PDF到浏览器</span></span><br><span class="line">$rendererName = PHPExcel_Settings::PDF_RENDERER_TCPDF;</span><br><span class="line">$rendererLibrary = <span class="string">'TCPDF'</span>;</span><br><span class="line">$rendererLibraryPath = <span class="string">'./Lib/tcpdf/'</span>;</span><br><span class="line"></span><br><span class="line">PHPExcel_Settings::setPdfRenderer(</span><br><span class="line">    $rendererName,</span><br><span class="line">    $rendererLibraryPath</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, <span class="string">'PDF'</span>);</span><br><span class="line">$objWriter-&gt;setSheetIndex(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">header(<span class="string">"Pragma: public"</span>);</span><br><span class="line">header(<span class="string">"Expires: 0″);</span></span><br><span class="line"><span class="string">header("</span>Cache-Control:must-revalidate, post-check=<span class="number">0</span>, pre-check=<span class="number">0</span>″);</span><br><span class="line">header(<span class="string">"Content-Type:application/force-download"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/pdf"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/octet-stream"</span>);</span><br><span class="line">header(<span class="string">"Content-Type:application/download"</span>);</span><br><span class="line">header(<span class="string">'Content-Disposition:attachment;filename="resume.pdf"'</span>);</span><br><span class="line">header(<span class="string">"Content-Transfer-Encoding:binary"</span>);</span><br><span class="line">$objWriter-&gt;save(<span class="string">'php://output'</span>);</span><br><span class="line">设置excel的属性</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建人</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setCreator(<span class="string">"Maarten Balliauw"</span>);</span><br><span class="line"><span class="comment">//最后修改人</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setLastModifiedBy(<span class="string">"Maarten Balliauw"</span>);</span><br><span class="line"><span class="comment">//标题</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setTitle(<span class="string">"Office 2007 XLSX Test Document"</span>);</span><br><span class="line"><span class="comment">//题目</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setSubject(<span class="string">"Office 2007 XLSX Test Document"</span>);</span><br><span class="line"><span class="comment">//描述</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setDescription(<span class="string">"Test document for Office 2007 XLSX, generated using PHP classes."</span>);</span><br><span class="line"><span class="comment">//关键字</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setKeywords(<span class="string">"office 2007 openxml php"</span>);</span><br><span class="line"><span class="comment">//种类</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setCategory(<span class="string">"Test result file"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建人</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setCreator(<span class="string">"Maarten Balliauw"</span>);</span><br><span class="line"><span class="comment">//最后修改人</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setLastModifiedBy(<span class="string">"Maarten Balliauw"</span>);</span><br><span class="line"><span class="comment">//标题</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setTitle(<span class="string">"Office 2007 XLSX Test Document"</span>);</span><br><span class="line"><span class="comment">//题目</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setSubject(<span class="string">"Office 2007 XLSX Test Document"</span>);</span><br><span class="line"><span class="comment">//描述</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setDescription(<span class="string">"Test document for Office 2007 XLSX, generated using PHP classes."</span>);</span><br><span class="line"><span class="comment">//关键字</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setKeywords(<span class="string">"office 2007 openxml php"</span>);</span><br><span class="line"><span class="comment">//种类</span></span><br><span class="line">$objPHPExcel-&gt;getProperties()-&gt;setCategory(<span class="string">"Test result file"</span>);</span><br><span class="line">其他常用设置</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置默认字体和大小</span></span><br><span class="line">$objPHPExcel-&gt;getDefaultStyle()-&gt;getFont()-&gt;setName(<span class="string">'宋体'</span>);</span><br><span class="line">$objPHPExcel-&gt;getDefaultStyle()-&gt;getFont()-&gt;setSize(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置当前的sheet</span></span><br><span class="line">$objPHPExcel-&gt;setActiveSheetIndex(<span class="number">0</span>);</span><br><span class="line"><span class="comment">//设置sheet的name</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setTitle(<span class="string">'Simple'</span>);</span><br><span class="line"><span class="comment">//设置单元格的值</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">'A1'</span>, <span class="string">'String'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">'A2'</span>, <span class="number">12</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">'A3'</span>, <span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">'C5'</span>, <span class="string">'=SUM(C2:C4)'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">'B8'</span>, <span class="string">'=MIN(B2:C5)'</span>);</span><br><span class="line"><span class="comment">//合并单元格</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;mergeCells(<span class="string">'A18:E22'</span>);</span><br><span class="line"><span class="comment">//分离单元格</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;unmergeCells(<span class="string">'A28:B28'</span>);</span><br><span class="line"><span class="comment">//保护cell</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getProtection()-&gt;setSheet(<span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;protectCells(<span class="string">'A3:E13'</span>, <span class="string">'PHPExcel'</span>);</span><br><span class="line"><span class="comment">//设置格式</span></span><br><span class="line"><span class="comment">// Set cell number formats</span></span><br><span class="line"><span class="keyword">echo</span> date(<span class="string">'H:i:s'</span>) . <span class="string">" Set cell number formatsn"</span>;</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E4'</span>)-&gt;getNumberFormat()-&gt;setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;duplicateStyle( $objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E4'</span>), <span class="string">'E5:E13'</span> );</span><br><span class="line"><span class="comment">//设置宽width</span></span><br><span class="line"><span class="comment">// Set column widths</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getColumnDimension(<span class="string">'B'</span>)-&gt;setAutoSize(<span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getColumnDimension(<span class="string">'D'</span>)-&gt;setWidth(<span class="number">12</span>);</span><br><span class="line"><span class="comment">//设置高度</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getRowDimension(<span class="string">'6'</span>)-&gt;setRowHeight(<span class="number">30</span>);</span><br><span class="line"><span class="comment">//设置font</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFont()-&gt;setName(<span class="string">'Candara'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFont()-&gt;setSize(<span class="number">20</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFont()-&gt;setBold(<span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFont()-&gt;setUnderline(PHPExcel_Style_Font::UNDERLINE_SINGLE);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFont()-&gt;getColor()-&gt;setARGB(PHPExcel_Style_Color::COLOR_WHITE);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E1'</span>)-&gt;getFont()-&gt;getColor()-&gt;setARGB(PHPExcel_Style_Color::COLOR_WHITE);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D13'</span>)-&gt;getFont()-&gt;setBold(<span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E13'</span>)-&gt;getFont()-&gt;setBold(<span class="keyword">true</span>);</span><br><span class="line"><span class="comment">//设置align</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D11'</span>)-&gt;getAlignment()-&gt;setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D12'</span>)-&gt;getAlignment()-&gt;setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D13'</span>)-&gt;getAlignment()-&gt;setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A18'</span>)-&gt;getAlignment()-&gt;setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY);</span><br><span class="line"><span class="comment">//垂直居中</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A18'</span>)-&gt;getAlignment()-&gt;setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);</span><br><span class="line"><span class="comment">//设置column的border</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A4'</span>)-&gt;getBorders()-&gt;getTop()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B4'</span>)-&gt;getBorders()-&gt;getTop()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'C4'</span>)-&gt;getBorders()-&gt;getTop()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D4'</span>)-&gt;getBorders()-&gt;getTop()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E4'</span>)-&gt;getBorders()-&gt;getTop()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);</span><br><span class="line"><span class="comment">//设置border的color</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D13'</span>)-&gt;getBorders()-&gt;getLeft()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D13'</span>)-&gt;getBorders()-&gt;getTop()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D13'</span>)-&gt;getBorders()-&gt;getBottom()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E13'</span>)-&gt;getBorders()-&gt;getTop()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E13'</span>)-&gt;getBorders()-&gt;getBottom()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E13'</span>)-&gt;getBorders()-&gt;getRight()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line"><span class="comment">//设置填充颜色</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A1'</span>)-&gt;getFill()-&gt;setFillType(PHPExcel_Style_Fill::FILL_SOLID);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A1'</span>)-&gt;getFill()-&gt;getStartColor()-&gt;setARGB(<span class="string">'FF808080'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFill()-&gt;setFillType(PHPExcel_Style_Fill::FILL_SOLID);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFill()-&gt;getStartColor()-&gt;setARGB(<span class="string">'FF808080'</span>);</span><br><span class="line"><span class="comment">//加图片</span></span><br><span class="line">$objDrawing = <span class="keyword">new</span> PHPExcel_Worksheet_Drawing();</span><br><span class="line">$objDrawing-&gt;setName(<span class="string">'Logo'</span>);</span><br><span class="line">$objDrawing-&gt;setDescription(<span class="string">'Logo'</span>);</span><br><span class="line">$objDrawing-&gt;setPath(<span class="string">'./images/officelogo.jpg'</span>);</span><br><span class="line">$objDrawing-&gt;setHeight(<span class="number">36</span>);</span><br><span class="line">$objDrawing-&gt;setWorksheet($objPHPExcel-&gt;getActiveSheet());</span><br><span class="line"></span><br><span class="line">$objDrawing = <span class="keyword">new</span> PHPExcel_Worksheet_Drawing();</span><br><span class="line">$objDrawing-&gt;setName(<span class="string">'Paid'</span>);</span><br><span class="line">$objDrawing-&gt;setDescription(<span class="string">'Paid'</span>);</span><br><span class="line">$objDrawing-&gt;setPath(<span class="string">'./images/paid.png'</span>);</span><br><span class="line">$objDrawing-&gt;setCoordinates(<span class="string">'B15'</span>);</span><br><span class="line">$objDrawing-&gt;setOffsetX(<span class="number">110</span>);</span><br><span class="line">$objDrawing-&gt;setRotation(<span class="number">25</span>);</span><br><span class="line">$objDrawing-&gt;getShadow()-&gt;setVisible(<span class="keyword">true</span>);</span><br><span class="line">$objDrawing-&gt;getShadow()-&gt;setDirection(<span class="number">45</span>);</span><br><span class="line">$objDrawing-&gt;setWorksheet($objPHPExcel-&gt;getActiveSheet());</span><br><span class="line"><span class="comment">//超链接</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getCell(<span class="string">'J9'</span>)-&gt;getHyperlink()-&gt;setUrl(<span class="string">'http://www.g.cn/'</span>);</span><br><span class="line"><span class="comment">//在默认sheet后，创建一个worksheet</span></span><br><span class="line"><span class="keyword">echo</span> date(<span class="string">'H:i:s'</span>) . <span class="string">" Create new Worksheet objectn"</span>;</span><br><span class="line">$objPHPExcel-&gt;createSheet();</span><br><span class="line">$objWriter = PHPExcel_IOFactory::createWriter($objExcel, <span class="string">'Excel5'</span>);</span><br><span class="line">$objWriter-save(<span class="string">'php://output'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置默认字体和大小</span></span><br><span class="line">$objPHPExcel-&gt;getDefaultStyle()-&gt;getFont()-&gt;setName(<span class="string">'宋体'</span>);</span><br><span class="line">$objPHPExcel-&gt;getDefaultStyle()-&gt;getFont()-&gt;setSize(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置当前的sheet</span></span><br><span class="line">$objPHPExcel-&gt;setActiveSheetIndex(<span class="number">0</span>);</span><br><span class="line"><span class="comment">//设置sheet的name</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setTitle(<span class="string">'Simple'</span>);</span><br><span class="line"><span class="comment">//设置单元格的值</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">'A1'</span>, <span class="string">'String'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">'A2'</span>, <span class="number">12</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">'A3'</span>, <span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">'C5'</span>, <span class="string">'=SUM(C2:C4)'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;setCellValue(<span class="string">'B8'</span>, <span class="string">'=MIN(B2:C5)'</span>);</span><br><span class="line"><span class="comment">//合并单元格</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;mergeCells(<span class="string">'A18:E22'</span>);</span><br><span class="line"><span class="comment">//分离单元格</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;unmergeCells(<span class="string">'A28:B28'</span>);</span><br><span class="line"><span class="comment">//保护cell</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getProtection()-&gt;setSheet(<span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;protectCells(<span class="string">'A3:E13'</span>, <span class="string">'PHPExcel'</span>);</span><br><span class="line"><span class="comment">//设置格式</span></span><br><span class="line"><span class="comment">// Set cell number formats</span></span><br><span class="line"><span class="keyword">echo</span> date(<span class="string">'H:i:s'</span>) . <span class="string">" Set cell number formatsn"</span>;</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E4'</span>)-&gt;getNumberFormat()-&gt;setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;duplicateStyle( $objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E4'</span>), <span class="string">'E5:E13'</span> );</span><br><span class="line"><span class="comment">//设置宽width</span></span><br><span class="line"><span class="comment">// Set column widths</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getColumnDimension(<span class="string">'B'</span>)-&gt;setAutoSize(<span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getColumnDimension(<span class="string">'D'</span>)-&gt;setWidth(<span class="number">12</span>);</span><br><span class="line"><span class="comment">//设置高度</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getRowDimension(<span class="string">'6'</span>)-&gt;setRowHeight(<span class="number">30</span>);</span><br><span class="line"><span class="comment">//设置font</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFont()-&gt;setName(<span class="string">'Candara'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFont()-&gt;setSize(<span class="number">20</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFont()-&gt;setBold(<span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFont()-&gt;setUnderline(PHPExcel_Style_Font::UNDERLINE_SINGLE);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFont()-&gt;getColor()-&gt;setARGB(PHPExcel_Style_Color::COLOR_WHITE);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E1'</span>)-&gt;getFont()-&gt;getColor()-&gt;setARGB(PHPExcel_Style_Color::COLOR_WHITE);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D13'</span>)-&gt;getFont()-&gt;setBold(<span class="keyword">true</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E13'</span>)-&gt;getFont()-&gt;setBold(<span class="keyword">true</span>);</span><br><span class="line"><span class="comment">//设置align</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D11'</span>)-&gt;getAlignment()-&gt;setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D12'</span>)-&gt;getAlignment()-&gt;setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D13'</span>)-&gt;getAlignment()-&gt;setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A18'</span>)-&gt;getAlignment()-&gt;setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY);</span><br><span class="line"><span class="comment">//垂直居中</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A18'</span>)-&gt;getAlignment()-&gt;setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);</span><br><span class="line"><span class="comment">//设置column的border</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A4'</span>)-&gt;getBorders()-&gt;getTop()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B4'</span>)-&gt;getBorders()-&gt;getTop()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'C4'</span>)-&gt;getBorders()-&gt;getTop()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D4'</span>)-&gt;getBorders()-&gt;getTop()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E4'</span>)-&gt;getBorders()-&gt;getTop()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN);</span><br><span class="line"><span class="comment">//设置border的color</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D13'</span>)-&gt;getBorders()-&gt;getLeft()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D13'</span>)-&gt;getBorders()-&gt;getTop()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'D13'</span>)-&gt;getBorders()-&gt;getBottom()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E13'</span>)-&gt;getBorders()-&gt;getTop()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E13'</span>)-&gt;getBorders()-&gt;getBottom()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'E13'</span>)-&gt;getBorders()-&gt;getRight()-&gt;getColor()-&gt;setARGB(<span class="string">'FF993300'</span>);</span><br><span class="line"><span class="comment">//设置填充颜色</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A1'</span>)-&gt;getFill()-&gt;setFillType(PHPExcel_Style_Fill::FILL_SOLID);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'A1'</span>)-&gt;getFill()-&gt;getStartColor()-&gt;setARGB(<span class="string">'FF808080'</span>);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFill()-&gt;setFillType(PHPExcel_Style_Fill::FILL_SOLID);</span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getStyle(<span class="string">'B1'</span>)-&gt;getFill()-&gt;getStartColor()-&gt;setARGB(<span class="string">'FF808080'</span>);</span><br><span class="line"><span class="comment">//加图片</span></span><br><span class="line">$objDrawing = <span class="keyword">new</span> PHPExcel_Worksheet_Drawing();</span><br><span class="line">$objDrawing-&gt;setName(<span class="string">'Logo'</span>);</span><br><span class="line">$objDrawing-&gt;setDescription(<span class="string">'Logo'</span>);</span><br><span class="line">$objDrawing-&gt;setPath(<span class="string">'./images/officelogo.jpg'</span>);</span><br><span class="line">$objDrawing-&gt;setHeight(<span class="number">36</span>);</span><br><span class="line">$objDrawing-&gt;setWorksheet($objPHPExcel-&gt;getActiveSheet());</span><br><span class="line"></span><br><span class="line">$objDrawing = <span class="keyword">new</span> PHPExcel_Worksheet_Drawing();</span><br><span class="line">$objDrawing-&gt;setName(<span class="string">'Paid'</span>);</span><br><span class="line">$objDrawing-&gt;setDescription(<span class="string">'Paid'</span>);</span><br><span class="line">$objDrawing-&gt;setPath(<span class="string">'./images/paid.png'</span>);</span><br><span class="line">$objDrawing-&gt;setCoordinates(<span class="string">'B15'</span>);</span><br><span class="line">$objDrawing-&gt;setOffsetX(<span class="number">110</span>);</span><br><span class="line">$objDrawing-&gt;setRotation(<span class="number">25</span>);</span><br><span class="line">$objDrawing-&gt;getShadow()-&gt;setVisible(<span class="keyword">true</span>);</span><br><span class="line">$objDrawing-&gt;getShadow()-&gt;setDirection(<span class="number">45</span>);</span><br><span class="line">$objDrawing-&gt;setWorksheet($objPHPExcel-&gt;getActiveSheet());</span><br><span class="line"><span class="comment">//超链接</span></span><br><span class="line">$objPHPExcel-&gt;getActiveSheet()-&gt;getCell(<span class="string">'J9'</span>)-&gt;getHyperlink()-&gt;setUrl(<span class="string">'http://www.g.cn/'</span>);</span><br><span class="line"><span class="comment">//在默认sheet后，创建一个worksheet</span></span><br><span class="line"><span class="keyword">echo</span> date(<span class="string">'H:i:s'</span>) . <span class="string">" Create new Worksheet objectn"</span>;</span><br><span class="line">$objPHPExcel-&gt;createSheet();</span><br><span class="line">$objWriter = PHPExcel_IOFactory::createWriter($objExcel, <span class="string">'Excel5'</span>);</span><br><span class="line">$objWriter-save(<span class="string">'php://output'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>tcpdf中文乱码的问题<br>下载字体包,解压至fonts目录<br>修改字体为<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$pdf-&gt;SetFont(<span class="string">'droidsansfallback'</span>, <span class="string">''</span>, <span class="number">12</span>);</span><br></pre></td></tr></table></figure></p>
+<p>以上的代码基本在博主的开发中，被当成API文档来看了，实用性很强，这里转载过来，也是基于分享精神给需要的朋友来看吧。原文地址：<a href="http://www.xiumu.org/technology/phpexcel-use.shtml" target="_blank" rel="noopener">http://www.xiumu.org/technology/phpexcel-use.shtml</a></p>
+<p>转载请注明： <a href="http://cometlj.github.io/blog/phpexcel-problems-encountered-in-the-development-and-precautions.html">http://cometlj.github.io/blog/phpexcel-problems-encountered-in-the-development-and-precautions.html</a> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cometlj.github.io/blog/phpexcel-problems-encountered-in-the-development-and-precautions.html" data-id="cjdysgl2l0005uo08vmkfwf8a" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/phpexcel/">phpexcel</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dedecms/">dedecms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phpexcel/">phpexcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二次开发/">二次开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/格式化输出/">格式化输出</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpexcel/" style="font-size: 10px;">phpexcel</a> <a href="/tags/sql/" style="font-size: 10px;">sql</a> <a href="/tags/二次开发/" style="font-size: 10px;">二次开发</a> <a href="/tags/格式化输出/" style="font-size: 20px;">格式化输出</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/the-difference-between-shallow-copy-and-deep-in-javascript.html">javascript中浅拷贝和深拷贝的区别</a>
+          </li>
+        
+          <li>
+            <a href="/blog/dedecms57-secondary-development-how-to-get-model-parameter-information-from-static-page.html">dedecms5-7二次开发之如何从dedecms5-7静态页中获取模型参数信息</a>
+          </li>
+        
+          <li>
+            <a href="/blog/the-jqueryajax-return-value-filtering-filter-method.html">对jquery-ajax的返回值进行过滤筛选的方法</a>
+          </li>
+        
+          <li>
+            <a href="/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html">Github-Pages-Hexo-搭建博客遇到的问题及解决</a>
+          </li>
+        
+          <li>
+            <a href="/blog/mysql-date-function-daquan-summary-from-time-to.html">Mysql日期函数大全汇总-不定期汇总</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Evans Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

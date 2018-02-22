@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Github-Pages-Hexo-搭建博客遇到的问题及解决 | 星星之语&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文基本是以Mac OS作为环境搭建，有部分摘自http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2 这里对作者表示感谢！ Github Pages环境搭建这几天恶补了下Git基础知识，推荐看  廖雪峰的Git基础教程,说的比较通俗，比较浅显易懂，看完后最好自己动手实践">
+<meta name="keywords" content="php,格式化输出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Github-Pages-Hexo-搭建博客遇到的问题及解决">
+<meta property="og:url" content="http://cometlj.github.io/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html">
+<meta property="og:site_name" content="星星之语&#39;s Blog">
+<meta property="og:description" content="本文基本是以Mac OS作为环境搭建，有部分摘自http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2 这里对作者表示感谢！ Github Pages环境搭建这几天恶补了下Git基础知识，推荐看  廖雪峰的Git基础教程,说的比较通俗，比较浅显易懂，看完后最好自己动手实践">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-02-22T17:35:06.101Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Github-Pages-Hexo-搭建博客遇到的问题及解决">
+<meta name="twitter:description" content="本文基本是以Mac OS作为环境搭建，有部分摘自http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2 这里对作者表示感谢！ Github Pages环境搭建这几天恶补了下Git基础知识，推荐看  廖雪峰的Git基础教程,说的比较通俗，比较浅显易懂，看完后最好自己动手实践">
+  
+    <link rel="alternate" href="/atom.xml" title="星星之语&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">星星之语&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">不忘初心，方得始终</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://cometlj.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Github-Pages-Hexo-搭建博客遇到的问题及解决" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html" class="article-date">
+  <time datetime="2016-07-12T06:37:11.000Z" itemprop="datePublished">2016-07-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Github-Pages-Hexo-搭建博客遇到的问题及解决
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文基本是以Mac OS作为环境搭建，有部分摘自<br><a href="http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2" target="_blank" rel="noopener">http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2</a></p>
+<p>这里对作者表示感谢！</p>
+<h2 id="Github-Pages环境搭建"><a href="#Github-Pages环境搭建" class="headerlink" title="Github Pages环境搭建"></a>Github Pages环境搭建</h2><p>这几天恶补了下Git基础知识，推荐看  <a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">廖雪峰的Git基础教程</a>,说的比较通俗，比较浅显易懂，看完后最好自己动手实践下是最好的。下面主要说说在链接Github中遇到的问题和解决方式</p>
+<h3 id="如何添加Git代理"><a href="#如何添加Git代理" class="headerlink" title="如何添加Git代理"></a>如何添加Git代理</h3><p>Git 目前支持的三种协议 <code>git://</code>、<code>ssh://</code> 和 <code>http://</code>，其代理配置各不相同：core.gitproxy 用于 git:// 协议，http.proxy 用于 http:// 协议，ssh:// 协议的代理需要配置 ssh 的 ProxyCommand 参数。</p>
+<h4 id="git协议代理"><a href="#git协议代理" class="headerlink" title="git协议代理"></a>git协议代理</h4><p>建立 /path/to/socks5proxywrapper 文件，使用 <a href="https://bitbucket.org/gotoh/connect" target="_blank" rel="noopener">https://bitbucket.org/gotoh/connect</a> 工具进行代理的转换，各发行版一般打包为 proxy-connect 或者 connect-proxy。</p>
+<blockquote>
+<p>/path/to 可以为你的本机路径，比如/usr/local/bin</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line">connect -S 127.0.0.1:7070 <span class="string">"<span class="variable">$@</span>"</span></span><br></pre></td></tr></table></figure>
+<p>配置git</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.gitproxy /path/to/socks5proxywrapper</span><br></pre></td></tr></table></figure>
+<p>或者设置成环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> GIT_PROXY_COMMAND=<span class="string">"/path/to/socks5proxywrapper"</span></span><br></pre></td></tr></table></figure>
+<h4 id="HTTP协议代理配置"><a href="#HTTP协议代理配置" class="headerlink" title="HTTP协议代理配置"></a>HTTP协议代理配置</h4><p>http协议的配置比较简单，使用场景一般有2种：</p>
+<ul>
+<li>内网 到 外网的代理</li>
+<li>Github无法访问被墙了<br>内网到外网的代理比较简单，只要一个内外网通吃的服务器做个跳板即可，下面主要说下Github扶墙的方法。本人使用的是Lantern</li>
+</ul>
+<ol>
+<li>Lantern代理</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy http://127.0.0.1:8787</span><br><span class="line">git config --global https.proxy https://127.0.0.1:8787</span><br></pre></td></tr></table></figure>
+<h4 id="SSH协议代理配置"><a href="#SSH协议代理配置" class="headerlink" title="SSH协议代理配置"></a>SSH协议代理配置</h4><p>博主购买的Bandwagon的VPS做的Shawdowsocks做的socks5代理</p>
+<blockquote>
+<p>主要方法：使用polipo做映射，将socks5-&gt;http来进行处理，如果使用的是Lantern，道理是一样的，只要将本地端口改成8787即可。然后通过corkscrew进行http-&gt;ssh的转换，实现SSH协议代理</p>
+</blockquote>
+<ol>
+<li><p>首先安装Homebrew，具体方法见<a href="http://brew.sh/" target="_blank" rel="noopener">这里</a>,如果已经安装过的请看下一步</p>
+</li>
+<li><p>安装corkscrew，corkscrew是一个能让你通过http代理，使用SSH客户端进行SSH隧道连接的软件</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install corkscrew</span><br></pre></td></tr></table></figure>
+<ol>
+<li>安装polipo，我们通过polipo实现socks5-&gt;http 代理的转换</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install polipo</span><br></pre></td></tr></table></figure>
+<p>这里我们要对polipo做一点配置，将其设置为自启动模式，这样每次开机后就自动开启了这个服务。</p>
+<p>进入到polipo的配置list文件，博主的在<br><code>/usr/local/Cellar/polipo/1.1.1</code>下，编辑文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi homebrew.mxcl.polipo.plist</span><br></pre></td></tr></table></figure>
+<p>加入一行string的配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>homebrew.mxcl.polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/opt/polipo/bin/polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">string</span>&gt;</span>socksParentProxy=localhost:1080<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Set `ulimit -n 65536`. The default OS X limit is 256, that's</span></span><br><span class="line"><span class="comment">         not enough for Polipo (displays 'too many files open' errors).</span></span><br><span class="line"><span class="comment">         It seems like you have no reason to lower this limit</span></span><br><span class="line"><span class="comment">         (and unlikely will want to raise it). --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>SoftResourceLimits<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">key</span>&gt;</span>NumberOfFiles<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">integer</span>&gt;</span>65536<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>设置每次启动登陆polipo</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -sfv /usr/<span class="built_in">local</span>/Cellar/polipo/1.1.1/*.plist ~/Library/LaunchAgents</span><br></pre></td></tr></table></figure>
+<p>这样就配置号了，下面对<code>~/.ssh</code>下新增编辑config文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.ssh</span><br><span class="line">vi config</span><br></pre></td></tr></table></figure>
+<p>填写如下内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">User username   <span class="comment">#这里填写你的Github注册邮箱或者账户名均可</span></span><br><span class="line">Hostname ssh.github.com</span><br><span class="line">PreferredAuthentications publickey</span><br><span class="line"><span class="comment">#polipo默认监听的是8123端口，也可以在刚才的plist文件指定</span></span><br><span class="line"><span class="comment">#通过corkscrew进行http代理-&gt;ssh的代理配置</span></span><br><span class="line">ProxyCommand corkscrew 127.0.0.1 8123 %h %p</span><br><span class="line">IdentityFile ~/.ssh/id_rsa</span><br><span class="line">Port 443</span><br></pre></td></tr></table></figure>
+<p>这样就实现了<code>socks5-&gt;http-&gt;ssh</code>的转换配置</p>
+<p>如果要测试是否连接成功，可以输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<p>界面返回</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hi XXX! You\<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></span><br></pre></td></tr></table></figure>
+<p>即为连接成功~</p>
+<h2 id="hexo环境搭建"><a href="#hexo环境搭建" class="headerlink" title="hexo环境搭建"></a>hexo环境搭建</h2><p>主要环境搭建请移步 <a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/</a><br>这里主要描述下如何将Github Pages+Hexo集成的</p>
+<h4 id="博客搭建流程"><a href="#博客搭建流程" class="headerlink" title="博客搭建流程"></a>博客搭建流程</h4><ol>
+<li>创建仓库，cometlj.github.io；</li>
+<li>创建两个分支：master 与 hexo；</li>
+<li>设置hexo为默认分支（因为我们只需要手动管理这个分支上的Hexo网站文件）；</li>
+<li>使用git clone git@github.com:cometlj/cometlj.github.io.git拷贝仓库；</li>
+<li>在本地cometlj.github.io文件夹下通过Git bash依次执行</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br><span class="line">npm install</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意！！</strong>这里有一个大坑，因为<code>git clone</code> 的时候，已经将写<code>.git</code>文件夹写入了，但是通过<code>hexo init</code>会<strong>先清空所有的文件，这样会导致git仓库损坏</strong>，网上找了找了半天也没有解决办法，这里最好在做<code>hexo init</code>操作之前，先把<code>.git</code>文件夹备份出来，执行完<code>hexo init</code>操作后，再挪回来即可。</p>
+</blockquote>
+<p>6.修改_config.yml中的deploy参数，配置hexo的git部署地址，分支应为master；例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: git@github.com:xxx/xxx.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>依次执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m “…”</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<p>提交网站相关的文件，这里可以使用<code>.gitignore</code>文件将没必要上传的文件过滤，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi .gitignore</span><br></pre></td></tr></table></figure>
+<p>写入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/.deploy_git</span><br><span class="line">/public</span><br><span class="line">/_config.yml</span><br></pre></td></tr></table></figure>
+<p>这样每次hexo分支上就不会有多余的其他文件了</p>
+<ol>
+<li>执行hexo generate -d生成网站并部署到GitHub上。</li>
+</ol>
+<p>这样一来，在GitHub上的CrazyMilk.github.io仓库就有两个分支，一个hexo分支用来存放网站的原始文件，一个master分支用来存放生成的静态网页。</p>
+<h4 id="博客管理流程"><a href="#博客管理流程" class="headerlink" title="博客管理流程"></a>博客管理流程</h4><p><strong>日常修改</strong><br>在本地对博客进行修改（添加新博文、修改样式等等）后，通过下面的流程进行管理：<br>依次执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m “…”</span><br><span class="line">git push origin hexo</span><br></pre></td></tr></table></figure>
+<p>hexo指令将改动推送到GitHub（此时当前分支应为hexo）；<br>然后才执行hexo generate -d发布网站到master分支上。<br>虽然两个过程顺序调转一般不会有问题，不过逻辑上这样的顺序是绝对没问题的（例如突然死机要重装了，悲催….的情况，调转顺序就有问题了）。</p>
+<p><strong>本地资料丢失</strong><br>当重装电脑之后，或者想在其他电脑上修改博客，可以使用下列步骤：<br>使用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:cometlj/cometlj.github.io.git</span><br></pre></td></tr></table></figure>
+<p>拷贝仓库（默认分支为hexo）<br>在本地新拷贝的cometlj.github.io文件夹下通过Git bash依次执行下列指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<p>（<em>记得，不需要<code>hexo init</code>这条指令</em>）</p>
+<p>OK,现在可以使用Hexo编写你的博客了</p>
+<p>转载请注明： <a href="http://cometlj.github.io/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html">http://cometlj.github.io/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html</a> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://cometlj.github.io/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html" data-id="cjdysgl260000uo08t9nuv6hg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/格式化输出/">格式化输出</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/the-jqueryajax-return-value-filtering-filter-method.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          对jquery-ajax的返回值进行过滤筛选的方法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/mysql-date-function-daquan-summary-from-time-to.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Mysql日期函数大全汇总-不定期汇总</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dedecms/">dedecms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jquery/">jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/phpexcel/">phpexcel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql/">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/二次开发/">二次开发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/格式化输出/">格式化输出</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/dedecms/" style="font-size: 10px;">dedecms</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jquery/" style="font-size: 10px;">jquery</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/php/" style="font-size: 20px;">php</a> <a href="/tags/phpexcel/" style="font-size: 10px;">phpexcel</a> <a href="/tags/sql/" style="font-size: 10px;">sql</a> <a href="/tags/二次开发/" style="font-size: 10px;">二次开发</a> <a href="/tags/格式化输出/" style="font-size: 20px;">格式化输出</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/the-difference-between-shallow-copy-and-deep-in-javascript.html">javascript中浅拷贝和深拷贝的区别</a>
+          </li>
+        
+          <li>
+            <a href="/blog/dedecms57-secondary-development-how-to-get-model-parameter-information-from-static-page.html">dedecms5-7二次开发之如何从dedecms5-7静态页中获取模型参数信息</a>
+          </li>
+        
+          <li>
+            <a href="/blog/the-jqueryajax-return-value-filtering-filter-method.html">对jquery-ajax的返回值进行过滤筛选的方法</a>
+          </li>
+        
+          <li>
+            <a href="/blog/githubpageshexo-build-blog-problems-encountered-and-solutions.html">Github-Pages-Hexo-搭建博客遇到的问题及解决</a>
+          </li>
+        
+          <li>
+            <a href="/blog/mysql-date-function-daquan-summary-from-time-to.html">Mysql日期函数大全汇总-不定期汇总</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Evans Liu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
