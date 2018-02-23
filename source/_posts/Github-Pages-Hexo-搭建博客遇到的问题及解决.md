@@ -9,7 +9,7 @@ date: 2016-07-12 14:37:11
 ---
 
 本文基本是以Mac OS作为环境搭建，有部分摘自
-http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2
+[这篇文章](http://crazymilk.github.io/2015/12/28/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2)
 
 这里对作者表示感谢！
 
